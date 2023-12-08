@@ -1,3 +1,7 @@
+'''
+This module is used to run the PandasAI module on the command line.
+'''
+
 import pandas as pd
 from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
