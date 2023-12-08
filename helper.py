@@ -1,3 +1,7 @@
+'''
+This file contains the helper functions that are used in the views.py file.
+'''
+
 import os
 import subprocess
 
