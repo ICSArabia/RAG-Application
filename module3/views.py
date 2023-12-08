@@ -5,11 +5,11 @@ module3_blueprint = Blueprint('module3', __name__)
 
 @module3_blueprint.route('/', methods=['GET', 'POST'])
 def module3_index():
-    question = "What is the average marks of the student?"
+    question = "Who are you?"
     if request.method == 'POST':
         question = request.form['question']
         
-    output = activate_virtualenv("module3", "test_env3", "chat", question)
+    output = activate_virtualenv("module3", "test_env3", "chat", question, "")
 
 
     return render_template('index.html', output=output)

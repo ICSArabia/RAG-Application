@@ -1,15 +1,15 @@
 import os
 import subprocess
 
-def activate_virtualenv(module, env_name, python_file, question):
+def activate_virtualenv(module, env_name, python_file, question, document_path):
 
-    root_path = "C:\llm_project\LLM_Langchain"
+    root_path = os.path.dirname(os.path.abspath(__file__))
     python_interpreter = os.path.join(root_path, module, f"{env_name}\Scripts\python.exe")
 
     python_file_path = os.path.join(root_path, module, f'{python_file}.py') 
-    print(question)
     
-    command = f"{python_interpreter} {python_file_path} \"{question}\""
+    # question and document_path are passed as arguments to the python file
+    command = f"{python_interpreter} {python_file_path} --query \"{question}\" --path \"{document_path}\""
 
     # Use subprocess to execute the command
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

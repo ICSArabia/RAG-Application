@@ -7,17 +7,23 @@ from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
 import matplotlib.pyplot as plt
 import os
-import sys
+import argparse
 
-API_KEY = "**********"
+API_KEY = "***************"
 os.environ["OPENAI_API_KEY"] = API_KEY
 
-df = pd.read_csv(r"D:\ICS_Arabia\LLM_Langchain\module1\student.csv")
+argparser = argparse.ArgumentParser()
+argparser.add_argument("--query", help="Question to ask")
+argparser.add_argument("--path", help="Path to the document")
 
-question = sys.argv[1]
+args = argparser.parse_args()
+
+question = args.query
+path = args.path
+
+df = pd.read_csv(path)
 
 llm = OpenAI()
 pandas_ai = PandasAI(llm)
 x = pandas_ai.run(df, prompt=question)
-
 print(x)

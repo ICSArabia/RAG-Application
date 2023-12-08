@@ -4,10 +4,16 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 import os
-import sys
+import argparse
 
-APIKEY = "***************"
+APIKEY = "******************"
 os.environ["OPENAI_API_KEY"] = APIKEY
+
+argparser = argparse.ArgumentParser()
+argparser.add_argument("--query", help="Question to ask")
+argparser.add_argument("--path", help="Path to document", default="")
+
+args = argparser.parse_args()
 
 def chat_with_prompt(user_query):
     # LLM 
@@ -33,10 +39,9 @@ def chat_with_prompt(user_query):
     response = chatbot({
         "query": user_query  
     })
-    print(response["text"])
     
     return response["text"]
 
-question = sys.argv[1]
+question = args.query
 response = chat_with_prompt(question)
 print(response)
