@@ -8,9 +8,9 @@ from pandasai.llm.openai import OpenAI
 import matplotlib.pyplot as plt
 import os
 import argparse
+import constants
 
-API_KEY = "***************"
-os.environ["OPENAI_API_KEY"] = API_KEY
+os.environ["OPENAI_API_KEY"] = constants.APIKEY
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("--query", help="Question to ask")
@@ -23,7 +23,8 @@ path = args.path
 
 df = pd.read_csv(path)
 
-llm = OpenAI()
+llm = OpenAI(model='gpt-4-0613',temperature=0.0)
 pandas_ai = PandasAI(llm)
 x = pandas_ai.run(df, prompt=question)
 print(x)
+

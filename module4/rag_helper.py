@@ -36,7 +36,7 @@ def qa_chain_with_memory_and_search(retriever):
 
 def ask_with_memory(vector_store, question, chat_history=[]):
 
-    llm = ChatOpenAI(temperature=0.1)
+    llm = ChatOpenAI(temperature=0.7)
     retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k":5})
     crc = ConversationalRetrievalChain.from_llm(llm, retriever)
     result = crc({"question": question, "chat_history": chat_history})

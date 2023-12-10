@@ -4,9 +4,9 @@ from langchain.embeddings import OpenAIEmbeddings
 from rag_helper import qa_chain_with_memory_and_search, ask_with_memory, break_response_source
 import os
 import argparse
+import constants
 
-APIKEY = "***************"
-os.environ["OPENAI_API_KEY"] = APIKEY
+os.environ["OPENAI_API_KEY"] = constants.APIKEY
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("--query", help="Question to ask")

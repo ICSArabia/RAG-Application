@@ -12,7 +12,7 @@ def module1_index():
         question = request.form['question']
         
         
-    output = activate_virtualenv("module1", "test_env1", "pandasai_module", question, filename)
+    output = activate_virtualenv("module1", "test_env1", "pandasai_module2", question, filename)
 
 
     return render_template('index.html', output=output)

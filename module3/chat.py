@@ -5,9 +5,9 @@ from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 import os
 import argparse
+import constants
 
-APIKEY = "******************"
-os.environ["OPENAI_API_KEY"] = APIKEY
+os.environ["OPENAI_API_KEY"] = constants.APIKEY
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("--query", help="Question to ask")
