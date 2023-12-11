@@ -1,24 +1,18 @@
-from langchain.llms import OpenAI
+# from langchain.llms import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder 
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
+from langchain.schema import StrOutputParser
+
+llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.4)
+
 import os
-import argparse
 import constants
 
 os.environ["OPENAI_API_KEY"] = constants.APIKEY
 
-argparser = argparse.ArgumentParser()
-argparser.add_argument("--query", help="Question to ask")
-argparser.add_argument("--path", help="Path to document", default="")
-
-args = argparser.parse_args()
-
-def chat_with_prompt(user_query):
-    # LLM 
-    llm = ChatOpenAI(model='gpt-4-0613', temperature=0.4)
-
+def chat_response(query):
     # Prompt
     prompt = ChatPromptTemplate.from_template("You are ICS Arabia chatbot so answer {query} accordingly")
 
@@ -28,20 +22,17 @@ def chat_with_prompt(user_query):
         return_messages=True
     )
 
-    # Chain
-    chatbot = LLMChain(
-        llm=llm,
-        prompt=prompt,
-        memory=memory
-    )
+    # # Chain
+    # chatbot = LLMChain(
+    #     llm=llm,
+    #     prompt=prompt,
+    #     memory=memory
+    # )
 
-    # Usage
-    response = chatbot({
-        "query": user_query  
-    })
-    
-    return response["text"]
+    runnable = prompt | llm | StrOutputParser()
 
-question = args.query
-response = chat_with_prompt(question)
-print(response)
+    # query = "What is AI in 1000 words"
+    for chunk in runnable.stream({"query": query}):
+        # print(chunk, end="", flush=True)
+        yield chunk
+
