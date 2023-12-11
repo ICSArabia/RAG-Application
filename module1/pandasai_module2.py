@@ -21,6 +21,7 @@ import base64
 import boto3
 import pytz
 import argparse
+import constants
 
 base_64_image = None
 global base64_image
@@ -28,7 +29,8 @@ global base64_image
 global plot_var
 plot_var = None
 
-os.environ["OPENAI_API_KEY"] = "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"
+
+os.environ["OPENAI_API_KEY"] = constants.APIKEY
 
 def get_base64_of_png_image(png_image_path):
   
