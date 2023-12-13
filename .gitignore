@@ -5,3 +5,7 @@ module4/test_env4
 constants.py
 .env
 module3/letters.txt
+__pycache__/
+cache/
+charts/
+pandasai.log

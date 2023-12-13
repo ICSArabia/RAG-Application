@@ -7,12 +7,12 @@ module1_blueprint = Blueprint('module1', __name__)
 def module1_index():
     
     structured_retriever = "AAPL10Y"
-    question = "What is the average marks of the student?"
+    question = "Display all column names"
     if request.method == 'POST':
         question = request.form['question']
         
         
-    output = activate_virtualenv("module1", "test_env1", "pandasai_module2", question, structured_retriever)
+    output = activate_virtualenv("module1", "test_env1", "pandasai_module", question, structured_retriever)
 
 
     return render_template('index.html', output=output)
