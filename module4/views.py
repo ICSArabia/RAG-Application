@@ -5,8 +5,8 @@ module4_blueprint = Blueprint('module4', __name__)
 
 @module4_blueprint.route('/', methods=['GET', 'POST'])
 def module4_index():
-    question = "Tell about the 9/11 commission report"
-    file_name = r'D:\ICS_Arabia\ICS_Langchain\module4\documents\FINAL 9-11 Review Commission Report -Unclassified.pdf'
+    question = "Summarize the document"
+    file_name = r'00-DHP_Vols_I_II_and_III_PB24.pdf'
     if request.method == 'POST':
         question = request.form['question']
         

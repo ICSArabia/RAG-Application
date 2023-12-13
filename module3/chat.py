@@ -4,13 +4,13 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import StrOutputParser
-
-llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.4)
-
 import os
 import constants
 
+
 os.environ["OPENAI_API_KEY"] = constants.APIKEY
+
+llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.4)
 
 def chat_response(query):
     # Prompt

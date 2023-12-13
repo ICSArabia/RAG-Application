@@ -26,7 +26,7 @@ def chat_with_doc(user_query, source_file_path):
 
     temperature = 0.8
 
-    persist_directory = source_file_path.split('.')[0] + '_db'
+    persist_directory = os.path.join('module4', 'documents', source_file_path.split('.')[0] + '_db')
         
     vector_store = Chroma(persist_directory= persist_directory, embedding_function=OpenAIEmbeddings())
     retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k":5})

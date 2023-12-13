@@ -452,10 +452,9 @@ argparser.add_argument("--path", help="Path to the document")
 args = argparser.parse_args()
 
 user_query = args.query
-path = args.path
+structured_retriever=args.path
 
 prefix = 'Structured'
-structured_retriever='AAPL10Y'
 vectordb = read_persisted_vextorstore_db(prefix)
 
 
