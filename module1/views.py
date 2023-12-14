@@ -13,6 +13,8 @@ def module1_index():
         
         
     output = activate_virtualenv("module1", "test_env1", "pandasai_module", question, structured_retriever)
+    answer = output.split('\r\n')[0]
+    base64_image = output.split('\r\n')[1]
 
 
     return render_template('index.html', output=output)

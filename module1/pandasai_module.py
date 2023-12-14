@@ -8,11 +8,8 @@ from pandasai.llm.openai import OpenAI
 import matplotlib.pyplot as plt
 import os
 import argparse
-import constants
 import base64
 import time
-
-os.environ["OPENAI_API_KEY"] = constants.APIKEY
 
 def check_recent_files(folder_path):
     current_time = time.time()
@@ -22,7 +19,7 @@ def check_recent_files(folder_path):
         file_path = os.path.join(folder_path, file)
         if os.path.isfile(file_path):
             creation_time = os.path.getctime(file_path)
-            if current_time - creation_time <= 120:  # Checking if file was created in last 2 minutes (120 seconds)
+            if current_time - creation_time <= 60:  # Checking if file was created in last 2 minutes (120 seconds)
                 return True
 
 argparser = argparse.ArgumentParser()
@@ -33,6 +30,9 @@ args = argparser.parse_args()
 
 question = args.query
 path = args.path
+
+base64_image = None
+result = None
 
 CWD = os.getcwd()
 if path == 'insurance':
@@ -54,6 +54,7 @@ sdf = SmartDataframe(df, config={"llm": llm, "save_charts": True,"save_charts_pa
 
 result = sdf.chat(question)
 
+
 if check_recent_files(charts_path):
     png_files = []
     for filename in os.listdir(charts_path):
@@ -72,6 +73,6 @@ if check_recent_files(charts_path):
 
     base64_image = base64.b64encode(image_bytes).decode("utf-8")
 
-    print(base64_image)
     
 print(result)
+print(base64_image)
