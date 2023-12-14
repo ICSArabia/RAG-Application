@@ -50,7 +50,7 @@ llm = OpenAI(model='gpt-4',temperature=0.0)
 # x = pandas_ai.run(df, prompt=question)
 # print(x)
 
-sdf = SmartDataframe(df, config={"llm": llm, "save_charts": True,"save_charts_path": charts_path, "enable_cache": False})
+sdf = SmartDataframe(df, config={"llm": llm, "save_charts": True,"save_charts_path": charts_path, "enable_cache": False, "open_charts": False })
 
 result = sdf.chat(question)
 

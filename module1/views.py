@@ -16,6 +16,8 @@ def module1_index():
     answer = output.split('\r\n')[0]
     base64_image = output.split('\r\n')[1]
 
+    if answer == 'None' and base64_image != 'None':
+        answer = "Graph Plotted!"
 
     return render_template('index.html', output=output)
 
