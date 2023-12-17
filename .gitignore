@@ -2,6 +2,8 @@ module1/test_env1
 module2/test_env2
 module3/test_env3
 module4/test_env4
+module5/uploads
+module5/vectorstore_db
 constants.py
 .env
 module3/letters.txt
