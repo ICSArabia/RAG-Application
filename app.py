@@ -1,3 +1,7 @@
+'''
+Test comment added
+'''
+
 from flask import Flask
 import os
 from module1.views import module1_blueprint, module1_namespace
