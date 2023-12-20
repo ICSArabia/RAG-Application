@@ -1,3 +1,6 @@
+'''
+Without socket code
+'''
 from flask import Flask
 import os
 from module1.views import module1_blueprint
