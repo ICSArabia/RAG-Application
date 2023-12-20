@@ -2,7 +2,7 @@ from flask import Blueprint,request,render_template,request, current_app,url_for
 import os
 from .generate_embeddings import create_and_save_embeddings
 
-module5_blueprint = Blueprint('module5', __name__)
+module5_blueprint = Blueprint('module5_blueprint', __name__)
 
 def progress_callback(percentage):
     print(f"Progress: {percentage}%")
@@ -11,14 +11,10 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = set(['txt', 'pdf'])
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@module5_blueprint.route('/', methods=['GET','POST'])
-def module5_index():
-    return render_template('upload.html')
-
-@module5_blueprint.route('module5/upload', methods=['GET','POST'])
+@module5_blueprint.route('/upload', methods=['GET','POST'])
 def upload():
     if 'file' not in request.files:
-        return 'No file part'
+        return render_template('upload.html')
     
     file = request.files['file']
 

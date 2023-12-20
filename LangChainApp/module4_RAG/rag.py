@@ -17,6 +17,8 @@ args = argparser.parse_args()
 user_query = args.query
 source_file_path = args.path
 
+CWD = os.getcwd()
+
 # user_query = "Tell me about the 9/11 commission report"
 # source_file_path = "module4\documents\FINAL 9-11 Review Commission Report -Unclassified.pdf"
 
@@ -26,7 +28,7 @@ def chat_with_doc(user_query, source_file_path):
 
     temperature = 0.8
 
-    persist_directory = os.path.join('module4', 'documents', source_file_path.split('.')[0] + '_db')
+    persist_directory = os.path.join(CWD, 'LangChainApp','module4_RAG', 'documents', source_file_path.split('.')[0] + '_db')
         
     vector_store = Chroma(persist_directory= persist_directory, embedding_function=OpenAIEmbeddings())
     retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k":5})

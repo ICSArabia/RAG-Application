@@ -10,7 +10,7 @@ import os
 
 MODEL_NAME = 'gpt-3.5-turbo-1106'
 CWD = os.getcwd()
-FILENAME = os.path.join(CWD, 'module3', 'letters.txt')
+FILENAME = os.path.join(CWD, 'LangChainApp', 'module3_Chat', 'letters.txt')
 
 def read_file_content(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
