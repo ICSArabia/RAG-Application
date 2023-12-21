@@ -17,12 +17,12 @@ def upload():
 
     id = "4f34ab27-281d-463a-9054-08d4ecda3073"
     username = "Hasnain"
-    un_structured = True
+    un_structured = 'unstructured'
     filename = 'numpy-user'
 
     supabaseListUpdate(id, username)
 
-    if un_structured:
+    if un_structured == 'unstructured':
         base_directory = r'D:\ICS_Arabia\ICS_Langchain_Development\unstructured'
         target_file = f"{id}-{filename}"  # Target file name without extension
 
