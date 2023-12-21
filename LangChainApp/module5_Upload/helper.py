@@ -1,19 +1,19 @@
 def load_document(file):
     import os
     name, extension = os.path.splitext(file)
-    file_path = os.path.join(os.getcwd(), 'module5', 'uploads', file)
+    # file_path = os.path.join(os.getcwd(), 'module5', 'uploads', file)
 
     if extension == '.pdf':
         from langchain.document_loaders import PyPDFLoader
         print(f'Loading {file}')
-        loader = PyPDFLoader(file_path)
+        loader = PyPDFLoader(file)
     elif extension == '.docx':
         from langchain.document_loaders import Docx2txtLoader
         print(f'Loading {file}')
-        loader = Docx2txtLoader(file_path)
+        loader = Docx2txtLoader(file)
     elif extension == '.txt':
         from langchain.document_loaders import TextLoader
-        loader = TextLoader(file_path)
+        loader = TextLoader(file)
     else:
         print('Document format is not supported!')
         return None
@@ -40,7 +40,9 @@ def create_embeddings(chunks, file_name):
     from langchain.embeddings.openai import OpenAIEmbeddings
     import os
 
-    persist_directory = os.path.join(os.getcwd(), 'module5', 'vectorstore_db', f'{file_name}_db')    
+    name, extension = os.path.splitext(file_name)
+    # persist_directory = os.path.join(os.getcwd(), 'module5', 'vectorstore_db', f'{file_name}_db')
+    persist_directory = f'{name}_db'    
     embeddings = OpenAIEmbeddings()
     vector_store = Chroma.from_documents(chunks, embeddings, persist_directory=persist_directory)
     vector_store.persist()
