@@ -1,62 +1,44 @@
 from LangChainApp import db
-from datetime import datetime
-from werkzeug.security import generate_password_hash,check_password_hash
-# By inheriting the UserMixin we get access to a lot of built-in attributes
-# which we will be able to call in our views!
-# is_authenticated()
-# is_active()
-# is_anonymous()
-# get_id()
-
-
-# The user_loader decorator allows flask-login to load the current user
-# and grab their id.
-
-def load_user(user_id):
-    return User.query.get(user_id)
+import uuid
 
 class User(db.Model):
-
-    # Create a table in the db
+    
     __tablename__ = 'users'
-
-    id = db.Column(db.Integer, primary_key = True)
-    profile_image = db.Column(db.String(20), nullable=False, default='default_profile.png')
-    email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(64), unique=True, index=True)
-    password_hash = db.Column(db.String(128))
-    # This connects BlogPosts to a User Author.
-    posts = db.relationship('BlogPost', backref='author', lazy=True)
-
-    def __init__(self, email, username, password):
-        self.email = email
-        self.username = username
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self,password):
-        # https://stackoverflow.com/questions/23432478/flask-generate-password-hash-not-constant-output
-        return check_password_hash(self.password_hash,password)
-
-    def __repr__(self):
-        return f"UserName: {self.username}"
-
-class BlogPost(db.Model):
-    # Setup the relationship to the User table
-    users = db.relationship(User)
-
-    # Model for the Blog Posts on Website
+    
     id = db.Column(db.Integer, primary_key=True)
-    # Notice how we connect the BlogPost to a particular author
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    chats = db.relationship('Chat', backref='user', lazy=True)
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+    
+class Chat(db.Model):
+    
+    __tablename__ = 'chat_history'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    question = db.Column(db.Text, nullable=False)
+    response = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    title = db.Column(db.String(140), nullable=False)
-    text = db.Column(db.Text, nullable=False)
+    
+    def __init__(self, question, response, user_id):
+        self.question = question
+        self.response = response
+        self.user_id = user_id
 
-    def __init__(self, title, text, user_id):
-        self.title = title
-        self.text = text
-        self.user_id =user_id
-
-
-    def __repr__(self):
-        return f"Post Id: {self.id} --- Date: {self.date} --- Title: {self.title}"
+class RAG(db.Model):
+    
+    __tablename__ = 'RAG_Document'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    doc_path = db.Column(db.String(200), nullable=False)
+    embedding_path = db.Column(db.String(2000), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
+    def __init__(self, doc_path, embedding_path, user_id):
+        self.doc_path = doc_path
+        self.embedding_path = embedding_path
+        self.user_id = user_id
+    

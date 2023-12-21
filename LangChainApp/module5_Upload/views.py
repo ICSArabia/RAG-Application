@@ -1,4 +1,4 @@
-from flask import Blueprint,request,render_template,request, current_app,url_for
+from flask import Blueprint,request,render_template,request, current_app,url_for,session
 import os
 from .generate_embeddings import create_and_save_embeddings
 
@@ -15,7 +15,8 @@ def allowed_file(filename):
 def upload():
     if 'file' not in request.files:
         return render_template('upload.html')
-    
+    if session is not None:
+        return "You are logged in as " + session['username']
     file = request.files['file']
 
     if file.filename == '':
