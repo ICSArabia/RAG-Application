@@ -12,3 +12,5 @@ __pycache__/
 cache/
 charts/
 pandasai.log
+structured/
+unstructured/

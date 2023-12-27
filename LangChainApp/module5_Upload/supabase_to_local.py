@@ -30,8 +30,8 @@ def supabaseListUpdate(id, username):
     # username = "Hasnain"
     ### Here the email and password can be dynamic based on the user that is logged in ###
     # data = supabase.auth.sign_in_with_password({"email": email, "password": password})
-    # data = supabase.auth.sign_in_with_password({"email": "mahmed@icsarabia.com", "password": "12345678"})
-    data = supabase.auth.sign_in_with_password({"email": email, "password": password})
+    data = supabase.auth.sign_in_with_password({"email": "mahmed@icsarabia.com", "password": "12345678"})
+    # data = supabase.auth.sign_in_with_password({"email": email, "password": password})
     resStructured = supabase.storage.from_(id).list('structured')
     resUnstructured = supabase.storage.from_(id).list('unstructured')
 
