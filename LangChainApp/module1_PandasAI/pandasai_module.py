@@ -18,7 +18,7 @@ def check_recent_files(folder_path):
         file_path = os.path.join(folder_path, file)
         if os.path.isfile(file_path):
             creation_time = os.path.getctime(file_path)
-            if current_time - creation_time <= 60:  # Checking if file was created in last 2 minutes (120 seconds)
+            if current_time - creation_time <= 20:  # Checking if file was created in last 2 minutes (120 seconds)
                 return True
 
 def pandas_ai_function(question, path):
@@ -27,13 +27,18 @@ def pandas_ai_function(question, path):
     result = None
     
     CWD = os.getcwd()
-    if path == 'insurance':
-        file_path = os.path.join(CWD, 'LangChainApp', 'module1_pandasai', 'documents', f'{path}.csv')
-        df = pd.read_csv(file_path)
-        
-    elif path == 'AAPL10Y':
-        file_path = os.path.join(CWD, 'LangChainApp', 'module1_pandasai','documents', f'{path}.xlsx')
-        df = pd.read_excel(file_path)
+
+    # search for path in documents folder
+    for file in os.listdir(os.path.join(CWD, 'LangChainApp', 'module1_pandasai', 'documents')):
+        if path == file.split('.')[0]:
+            filename = file
+            break
+    
+    if filename.endswith('.csv'):
+        df = pd.read_csv(os.path.join(CWD, 'LangChainApp', 'module1_pandasai', 'documents', filename))
+
+    elif filename.endswith('.xlsx'):
+        df = pd.read_excel(os.path.join(CWD, 'LangChainApp', 'module1_pandasai', 'documents', filename))
         
     charts_path = r"charts"
 

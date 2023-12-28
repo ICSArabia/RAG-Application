@@ -8,7 +8,7 @@ module1_blueprint = Blueprint('module1_blueprint', __name__)
 def module1_index():
     
     structured_retriever = "AAPL10Y"
-    question = "Display all column names"
+    question = "Plot graph for High and Low of AAPL10Y"
     if request.method == 'POST':
         question = request.form['question']
         
