@@ -28,17 +28,23 @@ def pandas_ai_function(question, path):
     
     CWD = os.getcwd()
 
+
+    id = '4f34ab27-281d-463a-9054-08d4ecda3073'
+    username = 'Hasnain'
+
+    path_with_id = f'{id}-{path}'
+
     # search for path in documents folder
-    for file in os.listdir(os.path.join(CWD, 'LangChainApp', 'module1_pandasai', 'documents')):
-        if path == file.split('.')[0]:
+    for file in os.listdir(os.path.join(CWD, 'structured', username)):
+        if path_with_id == file.split('.')[0]:
             filename = file
             break
     
     if filename.endswith('.csv'):
-        df = pd.read_csv(os.path.join(CWD, 'LangChainApp', 'module1_pandasai', 'documents', filename))
+        df = pd.read_csv(os.path.join(CWD, 'structured', username, filename))
 
     elif filename.endswith('.xlsx'):
-        df = pd.read_excel(os.path.join(CWD, 'LangChainApp', 'module1_pandasai', 'documents', filename))
+        df = pd.read_excel(os.path.join(CWD, 'structured', username, filename))
         
     charts_path = r"charts"
 

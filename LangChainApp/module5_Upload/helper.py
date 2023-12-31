@@ -70,3 +70,75 @@ def ask_with_memory(vector_store, question, chat_history=[]):
     chat_history.append((question, result["answer"]))
     
     return result, chat_history
+
+def save_retriever(loader,username, filename):
+        
+    from langchain.text_splitter import RecursiveCharacterTextSplitter
+    from langchain.retrievers import BM25Retriever
+    import pickle
+    import os
+
+    docs = loader.load()
+
+    text_splitter = RecursiveCharacterTextSplitter(
+        # Set a really small chunk size, just to show.
+        chunk_size = 256,
+        chunk_overlap  = 0,
+        length_function = len,
+        is_separator_regex = False,
+    )
+
+    chunks = text_splitter.split_documents(docs)
+
+    bm25_retriever = BM25Retriever.from_documents(chunks)
+
+    retriever_path = os.path.join('unstructured',username,'retriever',f'{filename}_retriever.pkl')
+    with open(retriever_path, "wb") as f:
+        pickle.dump(bm25_retriever, f) 
+
+    return chunks
+
+def add_vectorstore(username, filename, id):
+
+    from langchain.document_loaders import PyPDFDirectoryLoader
+    from langchain.embeddings import OpenAIEmbeddings
+    from langchain.vectorstores import Chroma
+    from langchain.document_loaders import PyPDFLoader
+    import os
+    
+    db_path = os.path.join('unstructured',username,f'{username}.db')
+    
+    if not os.path.exists(db_path):
+        
+        retriever_dir_path = os.path.join('unstructured',username, 'retriever')
+        if not os.path.exists(retriever_dir_path):
+            os.mkdir(retriever_dir_path)      
+          
+        loader = PyPDFDirectoryLoader(f"unstructured/{username}")
+        chunks = save_retriever(loader,username, filename)
+        persist_directory = os.path.join('unstructured',username,f'{username}.db')
+        db = Chroma.from_documents(chunks, OpenAIEmbeddings(), persist_directory=persist_directory)
+    
+    else:
+        persist_directory = os.path.join('unstructured',username,f'{username}.db')
+        vector_store = Chroma(persist_directory= persist_directory, embedding_function=OpenAIEmbeddings())
+        
+        base_directory = os.path.join(os.getcwd(), "unstructured", username)
+        target_file = f"{id}-{filename}"  # Target file name without extension
+
+        # Iterate through the directory structure to find the file
+        for root, dirs, files in os.walk(base_directory):
+            for file in files:
+                if file.startswith(target_file) and username in root:
+                    file_path = os.path.join(root, file)
+                    print(f"Found file at: {file_path}")
+                    break
+            else:
+                continue
+            break 
+        else:
+            print("File not found.")  
+        
+        loader = PyPDFLoader(file_path)
+        chunks = save_retriever(loader,username, filename)
+        vector_store.add_documents(chunks)
