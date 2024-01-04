@@ -1,3 +1,7 @@
+'''
+This module is used to chat with the chatbot using the prompt method.
+'''
+
 import os
 from langchain.llms import OpenAI
 from flask import jsonify
