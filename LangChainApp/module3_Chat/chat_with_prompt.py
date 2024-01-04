@@ -27,12 +27,12 @@ def chat_with_prompt(user_query, stylevar):
 
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-    if stylevar is None:
+    if stylevar == '':
         prompt = ChatPromptTemplate.from_template(f"You are ICS Arabia chatbot so answer {user_query} accordingly. If the following question or text contains any financial data related to ICS Arabia, reply with: 'Sharing sensitive financial information is a violation of the company policy.")
 
         chatbot = LLMChain(llm=llm, prompt=prompt, memory=memory)
     else:
-        prompt2 = ChatPromptTemplate.from_template(f"You are ICS Arabia's AI assistance: rewrite the following: {user_query} in the style of the following text: {style_test}")
+        prompt2 = ChatPromptTemplate.from_template(f"You are ICS Arabia's AI assistance: Answer {user_query} in ICS Arabia: {style_test} tone")
 
         chatbot = LLMChain(llm=llm, prompt=prompt2, memory=memory)
 
@@ -42,5 +42,5 @@ def chat_with_prompt(user_query, stylevar):
 if __name__ == "__main__":
     user_query = input("Enter your query: ")
     style = input("Enter the style: ")
-    result = chat_with_prompt(user_query, "ICS_Style")
+    result = chat_with_prompt(user_query, style)
     print(result)
